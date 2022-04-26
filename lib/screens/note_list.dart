@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:note_keeper_app/screens/note_detail.dart';
 import 'package:note_keeper_app/widgets/floating_action_btn.dart';
 import 'package:note_keeper_app/widgets/title_bar.dart';
@@ -26,7 +27,17 @@ class _NoteListState extends State<NoteList> {
             children: [
               // title bar
               titleBar(),
+              SizedBox(
+                height: 10,
+              ),
+              Text(
+                'Double click to edit',
+                style: GoogleFonts.rajdhani(
+                  color: Colors.white.withOpacity(0.4),
+                ),
+              ),
               SizedBox(height: 30),
+              // all the note list here
               noteList(
                 onClick: () {
                   navigateDetails(title: 'Edit Note');
@@ -39,7 +50,7 @@ class _NoteListState extends State<NoteList> {
               ),
               noteList(
                 onClick: () {
-                    navigateDetails(title: 'Edit Note');
+                  navigateDetails(title: 'Edit Note');
                 },
                 color: Color(0xffFF9E9E),
                 noteText:
@@ -50,7 +61,7 @@ class _NoteListState extends State<NoteList> {
               ),
               noteList(
                 onClick: () {
-                    navigateDetails(title: 'Edit Note');
+                  navigateDetails(title: 'Edit Note');
                 },
                 color: Color(0xff91F48F),
                 noteText: 'Animes produced by Ufotable',
@@ -60,7 +71,7 @@ class _NoteListState extends State<NoteList> {
               ),
               noteList(
                 onClick: () {
-                    navigateDetails(title: 'Edit Note');
+                  navigateDetails(title: 'Edit Note');
                 },
                 color: Color(0xffFFF599),
                 noteText: 'Mangas planned to read',
@@ -70,7 +81,7 @@ class _NoteListState extends State<NoteList> {
               ),
               noteList(
                 onClick: () {
-                    navigateDetails(title: 'Edit Note');
+                  navigateDetails(title: 'Edit Note');
                 },
                 color: Color(0xff9EFFFF),
                 noteText: 'Awesome tweets collection',
@@ -85,10 +96,12 @@ class _NoteListState extends State<NoteList> {
                 color: Color(0xffB69CFF),
                 noteText: 'List of free & open source apps',
               ),
+              // notelist ended here
             ],
           ),
         ),
       ),
+      // go to add note page
       floatingActionButton: addedTask(
         taskButtonToolTip: 'Go to add note',
         onpressed: () {
@@ -97,7 +110,8 @@ class _NoteListState extends State<NoteList> {
       ),
     );
   }
-
+ 
+  // navigate to note detail page
   void navigateDetails({required String title}) => Navigator.push(
         context,
         MaterialPageRoute(

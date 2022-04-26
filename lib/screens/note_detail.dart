@@ -31,6 +31,7 @@ class _NoteDetailState extends State<NoteDetail> {
             children: [
               Row(
                 children: [
+                  // go to previous page
                   GestureDetector(
                     onTap: () {
                       Navigator.pop(context);
@@ -124,6 +125,7 @@ class _NoteDetailState extends State<NoteDetail> {
     );
   }
 
+ // bottom sheet where add or edit note
   Widget AddNote() => Column(
         children: [
           Padding(
