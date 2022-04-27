@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:note_keeper_app/constants/constants.dart';
+
+import 'package:note_keeper_app/utilis/database_helper.dart';
 import 'package:note_keeper_app/widgets/add_task_field.dart';
 import 'package:note_keeper_app/widgets/floating_action_btn.dart';
 
@@ -113,6 +115,7 @@ class _NoteDetailState extends State<NoteDetail> {
         floatingActionButton: addedTask(
           onpressed: () {
             showModalBottomSheet(
+              isScrollControlled: true,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(15),
@@ -132,78 +135,81 @@ class _NoteDetailState extends State<NoteDetail> {
   }
 
   // bottom sheet where add or edit note
-  Widget AddNote() => Padding(
-        padding: const EdgeInsets.only(bottom: 15.0),
-        child: ListView(
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(top: 30.0),
-              child: Text(
-                'Add Your Task From Here!',
-                textAlign: TextAlign.center,
-                style: GoogleFonts.montserrat(
-                  fontSize: 18,
-                  color: Colors.white.withOpacity(0.5),
+  Widget AddNote() => DraggableScrollableSheet(
+        builder: (context, scrollController) => Padding(
+          padding: const EdgeInsets.only(bottom: 15.0),
+          child: ListView(
+            controller: scrollController,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(top: 30.0),
+                child: Text(
+                  'Add Your Task From Here!',
+                  textAlign: TextAlign.center,
+                  style: GoogleFonts.montserrat(
+                    fontSize: 18,
+                    color: Colors.white.withOpacity(0.5),
+                  ),
                 ),
               ),
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            // title field
-            addTaskField(
-                maxLength: 10,
-                controller: titleController,
-                hintText: 'Title',
-                fontSize: 28,
-                cursorHeight: 40),
-            SizedBox(
-              height: 20,
-            ),
-            // description field
-            addTaskField(
-                maxLength: 20,
-                controller: descController,
-                hintText: 'Description...',
-                fontSize: 17,
-                cursorHeight: 45),
-            SizedBox(
-              height: 20,
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                // save button
-                taskButton(
-                    color: Color(0xff30BE71),
-                    buttonText: 'Save',
-                    onClick: () {}),
-                SizedBox(
-                  width: 20,
-                ),
-                // delete button
-                taskButton(
-                    color: Color(0xffFF0000),
-                    buttonText: 'Delete',
-                    onClick: () {})
-              ],
-            )
-          ],
+              SizedBox(
+                height: 20,
+              ),
+              // title field
+              addTaskField(
+                  maxLength: 20,
+                  controller: titleController,
+                  hintText: 'Title',
+                  fontSize: 28,
+                  cursorHeight: 45),
+              SizedBox(
+                height: 20,
+              ),
+              // description field
+              addTaskField(
+                  maxLength: 40,
+                  controller: descController,
+                  hintText: 'Description...',
+                  fontSize: 17,
+                  cursorHeight: 55),
+
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  // save button
+                  taskButton(
+                      color: Color(0xff30BE71),
+                      buttonText: 'Save',
+                      onClick: () {}),
+                  SizedBox(
+                    width: 20,
+                  ),
+                  // delete button
+                  taskButton(
+                      color: Color(0xffFF0000),
+                      buttonText: 'Delete',
+                      onClick: () {
+                       
+                      })
+                ],
+              ),
+            ],
+          ),
         ),
       );
 
   // save task and delete task button
   Widget taskButton(
-          {required Color color,
+          { 
+            required Color color,
           required String buttonText,
           required VoidCallback onClick}) =>
       Expanded(
+
         child: Padding(
           padding: const EdgeInsets.only(left: 20.0, right: 20),
           child: ElevatedButton(
+
             style: ButtonStyle(
               padding: MaterialStateProperty.all(
                 EdgeInsets.only(left: 30, right: 30, top: 20, bottom: 20),
@@ -222,4 +228,21 @@ class _NoteDetailState extends State<NoteDetail> {
           ),
         ),
       );
+
+  // delete notes
+
+  // void delete(BuildContext context, Notes notes) async {
+  //   int result = await DatabaseHelper.databaseHelper.deleteNote(notes.id!);
+  //   if (result != 0) {
+  //     _showSnackBar(context, 'Note Deleted Successfully');
+  //   } else {
+  //     _showSnackBar(context, 'Error Occured');
+  //   }
+  // }
+
+  // show the snackbar popup
+  // void _showSnackBar(BuildContext context, String message) {
+  //   final snackBar = SnackBar(content: Text(message));
+  //   ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  // }
 }

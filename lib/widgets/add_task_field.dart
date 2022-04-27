@@ -13,14 +13,13 @@ Widget addTaskField(
       ),
       child: Container(
         child: TextFormField(
-          
           maxLength: maxLength,
           controller: controller,
           style: GoogleFonts.raleway(
-            height: 1.8,
             color: Colors.white.withOpacity(0.6),
             letterSpacing: 1.6,
             fontSize: 20,
+            height: 1.5,
           ),
           cursorHeight: cursorHeight?.toDouble(),
           cursorColor: Colors.grey,

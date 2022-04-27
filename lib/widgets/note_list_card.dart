@@ -9,6 +9,7 @@ Widget noteList(
       children: [
         GestureDetector(
           onDoubleTap: onClick,
+          
           child: Padding(
             padding: const EdgeInsets.only(left: 20, right: 20),
             child: Container(

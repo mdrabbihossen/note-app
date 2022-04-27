@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:note_keeper_app/data/noteData.dart';
 import 'package:note_keeper_app/screens/note_detail.dart';
 import 'package:note_keeper_app/widgets/floating_action_btn.dart';
+import 'package:note_keeper_app/widgets/note_list_card.dart';
 import 'package:note_keeper_app/widgets/title_bar.dart';
 
-import '../widgets/note_list_card.dart';
-
+// ignore: must_be_immutable
 class NoteList extends StatefulWidget {
-  const NoteList({Key? key}) : super(key: key);
-
   @override
   State<NoteList> createState() => _NoteListState();
 }
@@ -18,87 +17,46 @@ class _NoteListState extends State<NoteList> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black12,
-      body: SingleChildScrollView(
-        controller: ScrollController(),
-        physics: BouncingScrollPhysics(),
-        child: Padding(
-          padding: const EdgeInsets.only(bottom: 40.0),
-          child: Column(
-            children: [
-              // title bar
-              titleBar(),
-              SizedBox(
-                height: 10,
+      body: Padding(
+        padding: const EdgeInsets.only(bottom: 40.0),
+        child: Column(
+          children: [
+            // title bar
+            titleBar(),
+            SizedBox(
+              height: 10,
+            ),
+            Text(
+              'Double click to edit',
+              style: GoogleFonts.rajdhani(
+                color: Colors.white.withOpacity(0.4),
               ),
-              Text(
-                'Double click to edit',
-                style: GoogleFonts.rajdhani(
-                  color: Colors.white.withOpacity(0.4),
+            ),
+            SizedBox(height: 30),
+            // all the note list here
+            Expanded(
+              child: ListView.builder(
+                padding: EdgeInsets.only(bottom: 10),
+                itemCount: notes.length,
+                itemBuilder: (context, index) => Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: noteList(
+                    color: notes[index].color,
+                    noteText: notes[index].text,
+                    onClick: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => NoteDetail('Edit Note'),
+                        ),
+                      );
+                    },
+                  ),
                 ),
               ),
-              SizedBox(height: 30),
-              // all the note list here
-              noteList(
-                onClick: () {
-                  navigateDetails(title: 'Edit Note');
-                },
-                color: Color(0xffFD99FF),
-                noteText: 'UI Concepts Worth Existing',
-              ),
-              SizedBox(
-                height: 15,
-              ),
-              noteList(
-                onClick: () {
-                  navigateDetails(title: 'Edit Note');
-                },
-                color: Color(0xffFF9E9E),
-                noteText:
-                    'Book Review : The Design of Everyday Things by Don Norman',
-              ),
-              SizedBox(
-                height: 15,
-              ),
-              noteList(
-                onClick: () {
-                  navigateDetails(title: 'Edit Note');
-                },
-                color: Color(0xff91F48F),
-                noteText: 'Animes produced by Ufotable',
-              ),
-              SizedBox(
-                height: 15,
-              ),
-              noteList(
-                onClick: () {
-                  navigateDetails(title: 'Edit Note');
-                },
-                color: Color(0xffFFF599),
-                noteText: 'Mangas planned to read',
-              ),
-              SizedBox(
-                height: 15,
-              ),
-              noteList(
-                onClick: () {
-                  navigateDetails(title: 'Edit Note');
-                },
-                color: Color(0xff9EFFFF),
-                noteText: 'Awesome tweets collection',
-              ),
-              SizedBox(
-                height: 15,
-              ),
-              noteList(
-                onClick: () {
-                  navigateDetails(title: 'Edit Note');
-                },
-                color: Color(0xffB69CFF),
-                noteText: 'List of free & open source apps',
-              ),
-              // notelist ended here
-            ],
-          ),
+            ),
+            // notelist ended here
+          ],
         ),
       ),
       // go to add note page
@@ -110,7 +68,7 @@ class _NoteListState extends State<NoteList> {
       ),
     );
   }
- 
+
   // navigate to note detail page
   void navigateDetails({required String title}) => Navigator.push(
         context,
