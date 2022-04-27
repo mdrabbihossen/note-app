@@ -113,6 +113,12 @@ class _NoteDetailState extends State<NoteDetail> {
         floatingActionButton: addedTask(
           onpressed: () {
             showModalBottomSheet(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(15),
+                  topRight: Radius.circular(15),
+                ),
+              ),
               backgroundColor: backgroundColor.withOpacity(0.9),
               context: context,
               builder: (context) => AddNote(),
@@ -125,60 +131,68 @@ class _NoteDetailState extends State<NoteDetail> {
     );
   }
 
- // bottom sheet where add or edit note
-  Widget AddNote() => Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(top: 30.0),
-            child: Text(
-              'Add Your Task From Here!',
-              style: GoogleFonts.montserrat(
-                fontSize: 18,
-                color: Colors.white.withOpacity(0.5),
+  // bottom sheet where add or edit note
+  Widget AddNote() => Padding(
+        padding: const EdgeInsets.only(bottom: 15.0),
+        child: ListView(
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(top: 30.0),
+              child: Text(
+                'Add Your Task From Here!',
+                textAlign: TextAlign.center,
+                style: GoogleFonts.montserrat(
+                  fontSize: 18,
+                  color: Colors.white.withOpacity(0.5),
+                ),
               ),
             ),
-          ),
-          SizedBox(
-            height: 20,
-          ),
-          // title field
-          addTaskField(
-              controller: titleController,
-              hintText: 'Title',
-              fontSize: 28,
-              cursorHeight: 40),
-          SizedBox(
-            height: 20,
-          ),
-          // description field
-          addTaskField(
-              controller: descController,
-              hintText: 'Description...',
-              fontSize: 17,
-              cursorHeight: 45),
-          SizedBox(
-            height: 20,
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              // save button
-              taskButton(
-                  color: Color(0xff30BE71), buttonText: 'Save', onClick: () {}),
-              SizedBox(
-                width: 20,
-              ),
-              // delete button
-              taskButton(
-                  color: Color(0xffFF0000),
-                  buttonText: 'Delete',
-                  onClick: () {})
-            ],
-          )
-        ],
+            SizedBox(
+              height: 20,
+            ),
+            // title field
+            addTaskField(
+                maxLength: 10,
+                controller: titleController,
+                hintText: 'Title',
+                fontSize: 28,
+                cursorHeight: 40),
+            SizedBox(
+              height: 20,
+            ),
+            // description field
+            addTaskField(
+                maxLength: 20,
+                controller: descController,
+                hintText: 'Description...',
+                fontSize: 17,
+                cursorHeight: 45),
+            SizedBox(
+              height: 20,
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                // save button
+                taskButton(
+                    color: Color(0xff30BE71),
+                    buttonText: 'Save',
+                    onClick: () {}),
+                SizedBox(
+                  width: 20,
+                ),
+                // delete button
+                taskButton(
+                    color: Color(0xffFF0000),
+                    buttonText: 'Delete',
+                    onClick: () {})
+              ],
+            )
+          ],
+        ),
       );
 
   // save task and delete task button

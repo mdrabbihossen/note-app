@@ -1,13 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-Widget addTaskField({required String hintText, required int fontSize, int? cursorHeight,required TextEditingController controller}) =>
+Widget addTaskField(
+        {required String hintText,
+        required int fontSize,
+        int? cursorHeight,
+        required int maxLength,
+        required TextEditingController controller}) =>
     Padding(
       padding: const EdgeInsets.only(
         left: 20,
       ),
       child: Container(
         child: TextFormField(
+          
+          maxLength: maxLength,
           controller: controller,
           style: GoogleFonts.raleway(
             height: 1.8,
