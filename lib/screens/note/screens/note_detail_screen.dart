@@ -4,7 +4,7 @@ import 'package:note_keeper_app/constants/constants.dart';
 import 'package:note_keeper_app/screens/note/widgets/task_button.dart';
 
 import 'package:note_keeper_app/widgets/add_task_field.dart';
-import 'package:note_keeper_app/widgets/floating_action_btn.dart';
+import 'package:note_keeper_app/screens/note/widgets/floating_action_btn.dart';
 
 class NoteDetail extends StatefulWidget {
   final String appBarTitle;
@@ -28,7 +28,6 @@ class _NoteDetailState extends State<NoteDetail> {
       child: Scaffold(
         backgroundColor: backgroundColor,
         body: SingleChildScrollView(
-
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -114,7 +113,7 @@ class _NoteDetailState extends State<NoteDetail> {
           ),
         ),
         floatingActionButton: addedTask(
-          onpressed: () {
+          onPressed: () {
             showModalBottomSheet(
               isScrollControlled: true,
               shape: RoundedRectangleBorder(
