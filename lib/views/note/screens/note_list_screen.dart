@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:note_keeper_app/data/noteData.dart';
-import 'package:note_keeper_app/screens/note/screens/note_detail_screen.dart';
-import 'package:note_keeper_app/screens/note/widgets/floating_action_btn.dart';
-import 'package:note_keeper_app/screens/note/widgets/note_list_card.dart';
-import 'package:note_keeper_app/screens/note/widgets/title_bar.dart';
+import 'package:note_keeper_app/views/note/screens/note_detail_screen.dart';
+import 'package:note_keeper_app/views/note/widgets/floating_action_btn.dart';
+import 'package:note_keeper_app/views/note/widgets/note_list_card.dart';
+import 'package:note_keeper_app/views/note/widgets/title_bar.dart';
+
 
 class NoteList extends StatefulWidget {
   @override

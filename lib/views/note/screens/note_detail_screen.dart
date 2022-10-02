@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:note_keeper_app/constants/constants.dart';
-import 'package:note_keeper_app/screens/note/widgets/task_button.dart';
+import 'package:note_keeper_app/views/note/widgets/floating_action_btn.dart';
+import 'package:note_keeper_app/views/note/widgets/task_button.dart';
 
 import 'package:note_keeper_app/widgets/add_task_field.dart';
-import 'package:note_keeper_app/screens/note/widgets/floating_action_btn.dart';
 
 class NoteDetail extends StatefulWidget {
   final String appBarTitle;
