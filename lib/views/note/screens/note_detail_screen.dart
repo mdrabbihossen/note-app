@@ -24,6 +24,7 @@ class _NoteDetailState extends State<NoteDetail> {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     return SafeArea(
       child: Scaffold(
         backgroundColor: backgroundColor,
@@ -92,6 +93,7 @@ class _NoteDetailState extends State<NoteDetail> {
               SizedBox(
                 height: 10,
               ),
+              SizedBox(height: size.height * 0.2),
               Padding(
                 padding: const EdgeInsets.only(left: 15.0, top: 20),
                 child: Text(
@@ -107,6 +109,7 @@ class _NoteDetailState extends State<NoteDetail> {
                 child: Image.asset(
                   'assets/images/arrow.png',
                   height: 100,
+                  color: Colors.white,
                 ),
               ),
             ],
@@ -172,7 +175,7 @@ class _NoteDetailState extends State<NoteDetail> {
                   hintText: 'Description...',
                   fontSize: 17,
                   cursorHeight: 55),
-
+              SizedBox(height: 50),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
