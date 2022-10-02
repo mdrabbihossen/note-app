@@ -1,14 +1,14 @@
 class NoteModel {
   int? _id;
   String _title;
-  String? _desc;
+  String? _description;
   String _date;
   int _priority;
 
   NoteModel(
     this._id,
     this._title,
-    this._desc,
+    this._description,
     this._date,
     this._priority,
   );
@@ -17,7 +17,7 @@ class NoteModel {
 
   String get title => _title;
 
-  String get desc => _desc!;
+  String get desc => _description!;
 
   String get date => _date;
 
@@ -35,7 +35,7 @@ class NoteModel {
   // set the description
   set desc(String newDesc) {
     if (newDesc.length <= 255) {
-      this._desc = newDesc;
+      this._description = newDesc;
     }
   }
 
@@ -65,7 +65,7 @@ class NoteModel {
     return {
       "id": this._id,
       "title": this._title,
-      "desc": this._desc,
+      "description": this._description,
       "date": this._date,
       "priority": this._priority,
     };
@@ -75,7 +75,7 @@ class NoteModel {
     return NoteModel(
       map['id'],
       map['title'],
-      map['desc'],
+      map['description'],
       map['date'],
       map['priority'],
     );
