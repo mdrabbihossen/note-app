@@ -2,33 +2,42 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:note_keeper_app/constants/constants.dart';
 import 'package:note_keeper_app/models/note_model.dart';
+import 'package:note_keeper_app/utilis/database_helper.dart';
 import 'package:note_keeper_app/views/note/widgets/floating_action_btn.dart';
 import 'package:note_keeper_app/views/note/widgets/task_button.dart';
 
 import 'package:note_keeper_app/widgets/add_task_field.dart';
+import 'package:note_keeper_app/widgets/showAlertDialog.dart';
 
 class NoteDetail extends StatefulWidget {
   final String appBarTitle;
- final NoteModel noteModel;
-  NoteDetail(this.appBarTitle,this.noteModel);
+  final NoteModel noteModel;
+
+  NoteDetail(this.appBarTitle, this.noteModel);
 
   @override
-  State<NoteDetail> createState() => _NoteDetailState(this.noteModel,this.appBarTitle);
+  State<NoteDetail> createState() =>
+      _NoteDetailState(this.noteModel, this.appBarTitle);
 }
 
 class _NoteDetailState extends State<NoteDetail> {
   String? appBarTitle;
   NoteModel noteModel;
-  TextEditingController titleController = TextEditingController();
-  TextEditingController descController = TextEditingController();
+  TextEditingController? titleController;
+  TextEditingController? descController;
+  DatabaseHelper databaseHelper = DatabaseHelper();
 
-  _NoteDetailState(this.noteModel,this.appBarTitle);
+  _NoteDetailState(this.noteModel, this.appBarTitle);
 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+    titleController!.text = noteModel.title;
+    descController!.text = noteModel.desc;
+
     return SafeArea(
       child: Scaffold(
+
         backgroundColor: backgroundColor,
         body: SingleChildScrollView(
           child: Column(
@@ -141,10 +150,10 @@ class _NoteDetailState extends State<NoteDetail> {
 
   // bottom sheet where add or edit note
   Widget AddNote() => DraggableScrollableSheet(
+        initialChildSize: 0.8,
         builder: (context, scrollController) => Padding(
           padding: const EdgeInsets.only(bottom: 15.0),
           child: ListView(
-            controller: scrollController,
             children: [
               Padding(
                 padding: const EdgeInsets.only(top: 30.0),
@@ -163,8 +172,11 @@ class _NoteDetailState extends State<NoteDetail> {
               // title field
               addTaskField(
                   maxLength: 20,
-                  controller: titleController,
+                  controller: titleController!,
                   hintText: 'Title',
+                  onChanged: (value) {
+                    updateTitle();
+                  },
                   fontSize: 28,
                   cursorHeight: 45),
               SizedBox(
@@ -173,8 +185,11 @@ class _NoteDetailState extends State<NoteDetail> {
               // description field
               addTaskField(
                   maxLength: 40,
-                  controller: descController,
+                  controller: descController!,
                   hintText: 'Description...',
+                  onChanged: (value) {
+                    updateDesc();
+                  },
                   fontSize: 17,
                   cursorHeight: 55),
               SizedBox(height: 50),
@@ -183,21 +198,89 @@ class _NoteDetailState extends State<NoteDetail> {
                 children: [
                   // save button
                   taskButton(
-                      color: Color(0xff30BE71),
-                      buttonText: 'Save',
-                      onClick: () {}),
+                    color: Color(0xff30BE71),
+                    buttonText: 'Save',
+                    onClick: () {
+                      setState(() {
+                        save();
+                      });
+                    },
+                  ),
                   SizedBox(
                     width: 20,
                   ),
                   // delete button
                   taskButton(
-                      color: Color(0xffFF0000),
-                      buttonText: 'Delete',
-                      onClick: () {})
+                    color: Color(0xffFF0000),
+                    buttonText: 'Delete',
+                    onClick: () {
+                      setState(() {
+                        delete();
+                      });
+                    },
+                  )
                 ],
               ),
             ],
           ),
         ),
       );
+
+// update the title
+  void updateTitle() {
+    noteModel.title = titleController!.text;
+  }
+
+// update the title end
+  // update the description
+  void updateDesc() {
+    noteModel.desc = descController!.text;
+  }
+
+// update the description end
+
+//  save data to the database
+  void save() async {
+    Navigator.of(context).pop(true);
+    int result;
+    if (noteModel.id != null) {
+      result = await databaseHelper.updateNote(noteModel);
+    } else {
+      result = await databaseHelper.insertNote(noteModel);
+    }
+    if (result != 0) {
+      showAlertDialog(
+          title: 'Status',
+          message: 'Note Saved Successfully',
+          context: context);
+    } else {
+      showAlertDialog(
+          title: 'Status', message: 'Problem Saving Note', context: context);
+    }
+  }
+
+// save data to the database end
+
+  // delete note
+  void delete() async {
+    Navigator.of(context).pop(true);
+    if (noteModel.id == null) {
+      showAlertDialog(
+          title: 'Status', message: 'No Note was deleted', context: context);
+      return;
+    }
+    int result = await databaseHelper.deleteNote(noteModel.id);
+    if (result != 0) {
+      showAlertDialog(
+          title: 'Status',
+          message: 'Note Deleted Successfully',
+          context: context);
+    } else {
+      showAlertDialog(
+          title: 'Status',
+          message: 'Error Occurred while Deleting Note',
+          context: context);
+    }
+  }
+// delete note end
 }

@@ -71,7 +71,7 @@ class DatabaseHelper {
 
   // update note
   Future<int> updateNote(NoteModel note) async {
-    Database db = await this.database;
+    var db = await this.database;
     var result = await db.update(noteTable, note.toMap(),
         where: '$colId = ?', whereArgs: [note.id]);
     return result;

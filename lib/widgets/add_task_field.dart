@@ -6,7 +6,9 @@ Widget addTaskField(
         required int fontSize,
         int? cursorHeight,
         required int maxLength,
-        required TextEditingController controller}) =>
+        required TextEditingController controller,
+          required Function(String) onChanged,
+        }) =>
     Padding(
       padding: const EdgeInsets.only(
         left: 20,
@@ -15,6 +17,7 @@ Widget addTaskField(
         child: TextFormField(
           maxLength: maxLength,
           controller: controller,
+          onChanged:onChanged ,
           style: GoogleFonts.raleway(
             color: Colors.white.withOpacity(0.6),
             letterSpacing: 1.6,
