@@ -81,7 +81,7 @@ class DatabaseHelper {
 
   // delete note
   Future<int> deleteNote(int id) async {
-    Database db = await this.database;
+    var db = await this.database;
     int result =
         await db.rawDelete('DELETE FROM $noteTable WHERE $colId = $id');
     return result;
@@ -97,5 +97,19 @@ class DatabaseHelper {
     int result = Sqflite.firstIntValue(value)!;
     return result;
   }
+
 // get number of note object in database end
+
+  // get the map list convert it to note list
+  Future<List<NoteModel>> getNoteList() async {
+    var noteMapList = await getNoteMapList();
+    int count = noteMapList.length;
+    List<NoteModel> noteList = <NoteModel>[];
+    for (int i = 0; i < count; i++) {
+      noteList.add(NoteModel.fromMap(noteMapList[i]));
+    }
+    return noteList;
+  }
+
+// get the map list convert it to note list end
 }

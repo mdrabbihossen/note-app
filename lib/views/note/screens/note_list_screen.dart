@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:note_keeper_app/data/noteData.dart';
+import 'package:note_keeper_app/models/note_model.dart';
+import 'package:note_keeper_app/utilis/database_helper.dart';
+
 import 'package:note_keeper_app/views/note/screens/note_detail_screen.dart';
 import 'package:note_keeper_app/views/note/widgets/floating_action_btn.dart';
 import 'package:note_keeper_app/views/note/widgets/note_list_card.dart';
+
 import 'package:note_keeper_app/views/note/widgets/title_bar.dart';
 
+import 'package:sqflite/sqflite.dart';
 
 class NoteList extends StatefulWidget {
   @override
@@ -13,8 +18,16 @@ class NoteList extends StatefulWidget {
 }
 
 class _NoteListState extends State<NoteList> {
+  DatabaseHelper databaseHelper = DatabaseHelper();
+  List<NoteModel>? notesList;
+  int count = 0;
+
   @override
   Widget build(BuildContext context) {
+    if (notesList == null) {
+      notesList = <NoteModel>[];
+      updateNoteListView();
+    }
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.black12,
@@ -38,17 +51,18 @@ class _NoteListState extends State<NoteList> {
               Expanded(
                 child: ListView.builder(
                   padding: EdgeInsets.only(bottom: 10),
-                  itemCount: notes.length,
+                  itemCount: count,
                   itemBuilder: (context, index) => Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: noteList(
                       color: notes[index].color,
-                      noteText: notes[index].text,
+                      noteText: this.notesList![index].title,
                       onClick: () {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => NoteDetail('Edit Note'),
+                            builder: (context) =>
+                                NoteDetail('Edit Note', this.notesList![index]),
                           ),
                         );
                       },
@@ -64,7 +78,8 @@ class _NoteListState extends State<NoteList> {
         floatingActionButton: addedTask(
           taskButtonToolTip: 'Go to add note',
           onPressed: () {
-            navigateDetails(title: 'Add Note');
+            navigateDetails(
+                title: 'Add Note', noteModel: NoteModel(1, '', '', '', 2));
           },
         ),
       ),
@@ -72,10 +87,26 @@ class _NoteListState extends State<NoteList> {
   }
 
   // navigate to note detail page
-  void navigateDetails({required String title}) => Navigator.push(
+  void navigateDetails({required String title, required NoteModel noteModel}) =>
+      Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => NoteDetail(title),
+          builder: (context) => NoteDetail(title, noteModel),
         ),
       );
+
+// update note
+  void updateNoteListView() {
+    final Future<Database> dbFuture = databaseHelper.initializeDB();
+    dbFuture.then((database) {
+      Future<List<NoteModel>> noteListFuture = databaseHelper.getNoteList();
+      noteListFuture.then((noteList) {
+        setState(() {
+          this.notesList = noteList;
+          this.count = noteList.length;
+        });
+      });
+    });
+  }
+// update note end
 }
