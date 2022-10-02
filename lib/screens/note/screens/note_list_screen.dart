@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:note_keeper_app/data/noteData.dart';
-import 'package:note_keeper_app/screens/note_detail.dart';
+import 'package:note_keeper_app/screens/note/screens/note_detail_screen.dart';
 import 'package:note_keeper_app/widgets/floating_action_btn.dart';
-import 'package:note_keeper_app/widgets/note_list_card.dart';
-import 'package:note_keeper_app/widgets/title_bar.dart';
+import 'package:note_keeper_app/screens/note/widgets/note_list_card.dart';
+import 'package:note_keeper_app/screens/note/widgets/title_bar.dart';
 
-// ignore: must_be_immutable
+
 class NoteList extends StatefulWidget {
   @override
   State<NoteList> createState() => _NoteListState();

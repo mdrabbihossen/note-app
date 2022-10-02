@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:note_keeper_app/constants/constants.dart';
+import 'package:note_keeper_app/screens/note/widgets/task_button.dart';
 
-import 'package:note_keeper_app/utilis/database_helper.dart';
 import 'package:note_keeper_app/widgets/add_task_field.dart';
 import 'package:note_keeper_app/widgets/floating_action_btn.dart';
 
@@ -19,15 +19,16 @@ class _NoteDetailState extends State<NoteDetail> {
   String? appBarTitle;
   TextEditingController titleController = TextEditingController();
   TextEditingController descController = TextEditingController();
+
   _NoteDetailState(this.appBarTitle);
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
         backgroundColor: backgroundColor,
         body: SingleChildScrollView(
-          controller: ScrollController(),
-          physics: BouncingScrollPhysics(),
+
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -92,23 +93,23 @@ class _NoteDetailState extends State<NoteDetail> {
               SizedBox(
                 height: 10,
               ),
-              // Padding(
-              //   padding: const EdgeInsets.only(left: 15.0, top: 20),
-              //   child: Text(
-              //     'Click here to ${appBarTitle}',
-              //     style: GoogleFonts.indieFlower(
-              //       fontSize: 18,
-              //       color: Colors.white.withOpacity(0.3),
-              //     ),
-              //   ),
-              // ),
-              // Padding(
-              //   padding: const EdgeInsets.only(left: 40.0),
-              //   child: Image.asset(
-              //     'assets/images/arrow.png',
-              //     height: 100,
-              //   ),
-              // ),
+              Padding(
+                padding: const EdgeInsets.only(left: 15.0, top: 20),
+                child: Text(
+                  'Click here to ${appBarTitle}',
+                  style: GoogleFonts.indieFlower(
+                    fontSize: 18,
+                    color: Colors.white.withOpacity(0.3),
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 40.0),
+                child: Image.asset(
+                  'assets/images/arrow.png',
+                  height: 100,
+                ),
+              ),
             ],
           ),
         ),
@@ -188,61 +189,11 @@ class _NoteDetailState extends State<NoteDetail> {
                   taskButton(
                       color: Color(0xffFF0000),
                       buttonText: 'Delete',
-                      onClick: () {
-                       
-                      })
+                      onClick: () {})
                 ],
               ),
             ],
           ),
         ),
       );
-
-  // save task and delete task button
-  Widget taskButton(
-          { 
-            required Color color,
-          required String buttonText,
-          required VoidCallback onClick}) =>
-      Expanded(
-
-        child: Padding(
-          padding: const EdgeInsets.only(left: 20.0, right: 20),
-          child: ElevatedButton(
-
-            style: ButtonStyle(
-              padding: MaterialStateProperty.all(
-                EdgeInsets.only(left: 30, right: 30, top: 20, bottom: 20),
-              ),
-              backgroundColor: MaterialStateProperty.all(
-                color,
-              ),
-            ),
-            onPressed: onClick,
-            child: Text(
-              buttonText,
-              style: GoogleFonts.nunito(
-                fontSize: 18,
-              ),
-            ),
-          ),
-        ),
-      );
-
-  // delete notes
-
-  // void delete(BuildContext context, Notes notes) async {
-  //   int result = await DatabaseHelper.databaseHelper.deleteNote(notes.id!);
-  //   if (result != 0) {
-  //     _showSnackBar(context, 'Note Deleted Successfully');
-  //   } else {
-  //     _showSnackBar(context, 'Error Occured');
-  //   }
-  // }
-
-  // show the snackbar popup
-  // void _showSnackBar(BuildContext context, String message) {
-  //   final snackBar = SnackBar(content: Text(message));
-  //   ScaffoldMessenger.of(context).showSnackBar(snackBar);
-  // }
 }
