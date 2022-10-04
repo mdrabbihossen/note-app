@@ -11,8 +11,7 @@ class DatabaseHelper {
   String colId = 'id';
   String colTitle = 'title';
   String colDescription = 'description';
-  String colDate = 'date';
-  String colPriority = 'priority';
+
 
   DatabaseHelper.createInstance();
 
@@ -46,7 +45,7 @@ class DatabaseHelper {
   // create database
   void createDB(Database db, int version) async {
     await db.execute(
-        'CREATE TABLE $noteTable($colId INTEGER PRIMARY KEY AUTOINCREMENT, $colTitle TEXT, $colDescription TEXT, $colDate TEXT, $colPriority INTEGER)');
+        'CREATE TABLE $noteTable($colId INTEGER PRIMARY KEY AUTOINCREMENT, $colTitle TEXT, $colDescription TEXT,)');
   }
 
 // create database end
@@ -54,7 +53,7 @@ class DatabaseHelper {
 // fetch note object from database
   Future<List<Map<String, dynamic>>> getNoteMapList() async {
     Database db = await this.database;
-    var result = await db.query(noteTable, orderBy: '$colPriority ASC');
+    var result = await db.query(noteTable, orderBy: '$colId ASC');
     return result;
   }
 
@@ -104,7 +103,7 @@ class DatabaseHelper {
   Future<List<NoteModel>> getNoteList() async {
     var noteMapList = await getNoteMapList();
     int count = noteMapList.length;
-    List<NoteModel> noteList = <NoteModel>[];
+    List<NoteModel> noteList = [];
     for (int i = 0; i < count; i++) {
       noteList.add(NoteModel.fromMap(noteMapList[i]));
     }

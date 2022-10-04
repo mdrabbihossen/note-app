@@ -19,13 +19,13 @@ class NoteList extends StatefulWidget {
 
 class _NoteListState extends State<NoteList> {
   DatabaseHelper databaseHelper = DatabaseHelper();
-  List<NoteModel>? notesList;
+  List<NoteModel>? mynote;
   int count = 0;
 
   @override
   Widget build(BuildContext context) {
-    if (notesList == null) {
-      notesList = <NoteModel>[];
+    if (mynote == null) {
+      mynote = <NoteModel>[];
       updateNoteListView();
     }
     return SafeArea(
@@ -56,13 +56,13 @@ class _NoteListState extends State<NoteList> {
                     padding: const EdgeInsets.all(8.0),
                     child: noteList(
                       color: notes[index].color,
-                      noteText: this.notesList![index].title,
+                      noteText: this.mynote![index].title,
                       onClick: () {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
                             builder: (context) =>
-                                NoteDetail('Edit Note', this.notesList![index]),
+                                NoteDetail('Edit Note', this.mynote![index]),
                           ),
                         );
                       },
@@ -79,7 +79,13 @@ class _NoteListState extends State<NoteList> {
           taskButtonToolTip: 'Go to add note',
           onPressed: () {
             navigateDetails(
-                title: 'Add Note', noteModel: NoteModel(1, '', '', '', 2));
+              title: 'Add Note',
+              noteModel: NoteModel(
+                0,
+                '',
+                '',
+              ),
+            );
           },
         ),
       ),
@@ -87,8 +93,10 @@ class _NoteListState extends State<NoteList> {
   }
 
   // navigate to note detail page
-  void navigateDetails(
-      {required String title, required NoteModel noteModel}) async {
+  void navigateDetails({
+    required String title,
+    required NoteModel noteModel,
+  }) async {
     bool result = await Navigator.push(
       context,
       MaterialPageRoute(
@@ -107,7 +115,7 @@ class _NoteListState extends State<NoteList> {
       Future<List<NoteModel>> noteListFuture = databaseHelper.getNoteList();
       noteListFuture.then((noteList) {
         setState(() {
-          this.notesList = noteList;
+          this.mynote = noteList;
           this.count = noteList.length;
         });
       });
