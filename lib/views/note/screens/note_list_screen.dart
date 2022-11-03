@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hive/hive.dart';
 import 'package:note_keeper_app/constants/constants.dart';
 import 'package:note_keeper_app/models/data/noteData.dart';
+import 'package:note_keeper_app/utilis/database_helper.dart';
 
 import 'package:note_keeper_app/views/note/screens/note_detail_screen.dart';
 import 'package:note_keeper_app/views/note/widgets/floating_action_btn.dart';
@@ -17,7 +19,9 @@ class NoteList extends StatefulWidget {
 }
 
 class _NoteListState extends State<NoteList> {
-  List todoList = notes.length == 0 ? [] : notes;
+  // reference the hive box
+  final noteBox = Hive.box('notes');
+  TODODatabase db = TODODatabase();
   TextEditingController titleController = TextEditingController();
   TextEditingController descController = TextEditingController();
 
@@ -28,13 +32,13 @@ class _NoteListState extends State<NoteList> {
   // save note
   void saveNote() {
     setState(() {
-      todoList.add(
+      db.todoList.add(
         NoteData(
           text: titleController.text,
           desc: descController.text,
-          color: todoList.length == 0
+          color: db.todoList.length == 0
               ? Color(0xffFD99FF)
-              : todoList[todoList.length - 1].color,
+              : db.todoList[db.todoList.length - 1].color,
         ),
       );
       titleController.clear();
@@ -62,13 +66,18 @@ class _NoteListState extends State<NoteList> {
             Expanded(
               child: ListView.builder(
                 padding: EdgeInsets.only(bottom: 10),
-                itemCount: todoList.length,
+                itemCount: db.todoList.length,
                 itemBuilder: (context, index) => Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: noteList(
-                    color: todoList[index].color,
-                    noteText: todoList[index].text,
-                    noteDesc: todoList[index].desc,
+                    color: db.todoList[index].color,
+                    noteText: db.todoList[index].text,
+                    noteDesc: db.todoList[index].desc,
+                    onDelete: (context) {
+                      setState(() {
+                        db.todoList.removeAt(index);
+                      });
+                    },
                     onClick: () {
                       Navigator.push(
                         context,
