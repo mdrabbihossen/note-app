@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:note_keeper_app/constants/constants.dart';
-import 'package:note_keeper_app/models/data/noteData.dart';
 
 import 'package:note_keeper_app/views/note/widgets/floating_action_btn.dart';
 import 'package:note_keeper_app/views/note/widgets/task_button.dart';
@@ -20,29 +19,12 @@ class NoteDetail extends StatefulWidget {
 class _NoteDetailState extends State<NoteDetail> {
   String? appBarTitle;
 
-  TextEditingController titleController = TextEditingController();
-  TextEditingController descController = TextEditingController();
 
-  // draggable scrollable controller
-  DraggableScrollableController _scrollController =
-      DraggableScrollableController();
+
+  // add note title and desc and save it to note list screen
 
   _NoteDetailState(this.appBarTitle);
 
-   // save new task
-  void saveTask(){
-    setState(() {
-      // add new task to the list
-      notes.add(NoteData(
-      text : titleController.text,
-        desc: descController.text,
-        color: Colors.white,
-      ));
-      // clear the text field
-      titleController.clear();
-      descController.clear();
-    });
-  }
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -137,18 +119,7 @@ class _NoteDetailState extends State<NoteDetail> {
         ),
         floatingActionButton: addedTask(
           onPressed: () {
-            showModalBottomSheet(
-              isScrollControlled: true,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(15),
-                  topRight: Radius.circular(15),
-                ),
-              ),
-              backgroundColor: kBackgroundColor.withOpacity(0.9),
-              context: context,
-              builder: (context) => AddNote(),
-            );
+
           },
           taskButtonToolTip: 'Add Task',
         ),
@@ -158,69 +129,5 @@ class _NoteDetailState extends State<NoteDetail> {
   }
 
   // bottom sheet where add or edit note
-  Widget AddNote() => DraggableScrollableSheet(
-        controller: _scrollController,
-        builder: (context, scrollController) => Padding(
-          padding: const EdgeInsets.only(bottom: 15.0),
-          child: ListView(
-            controller: scrollController,
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(top: 30.0),
-                child: Text(
-                  'Add Your Task From Here!',
-                  textAlign: TextAlign.center,
-                  style: kTextStyle.copyWith(
-                    fontSize: 18,
-                    color: Colors.white.withOpacity(0.3),
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              // title field
-              addTaskField(
-                  maxLength: 20,
-                  controller: titleController,
-                  hintText: 'Title',
-                  onChanged: (value) {},
-                  fontSize: 28,
-                  cursorHeight: 45),
-              SizedBox(
-                height: 20,
-              ),
-              // description field
-              addTaskField(
-                  maxLength: 40,
-                  controller: descController,
-                  hintText: 'Description...',
-                  onChanged: (value) {},
-                  fontSize: 17,
-                  cursorHeight: 55),
-              SizedBox(height: 50),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  // save button
-                  taskButton(
-                    color: Color(0xff30BE71),
-                    buttonText: 'Save',
-                    onClick: () {},
-                  ),
-                  SizedBox(
-                    width: 20,
-                  ),
-                  // delete button
-                  taskButton(
-                    color: Color(0xffFF0000),
-                    buttonText: 'Delete',
-                    onClick: () {},
-                  )
-                ],
-              ),
-            ],
-          ),
-        ),
-      );
+
 }

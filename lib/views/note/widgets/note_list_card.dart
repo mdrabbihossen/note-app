@@ -15,6 +15,7 @@ Widget noteList({
           child: Padding(
             padding: const EdgeInsets.only(left: 20, right: 20),
             child: Container(
+              width: double.infinity,
               padding: EdgeInsets.only(bottom: 20),
               decoration: BoxDecoration(
                 color: color,

@@ -6,9 +6,10 @@ import 'package:note_keeper_app/models/data/noteData.dart';
 import 'package:note_keeper_app/views/note/screens/note_detail_screen.dart';
 import 'package:note_keeper_app/views/note/widgets/floating_action_btn.dart';
 import 'package:note_keeper_app/views/note/widgets/note_list_card.dart';
+import 'package:note_keeper_app/views/note/widgets/task_button.dart';
 
 import 'package:note_keeper_app/views/note/widgets/title_bar.dart';
-import 'package:note_keeper_app/widgets/title_bar_icons.dart';
+import 'package:note_keeper_app/widgets/add_task_field.dart';
 
 class NoteList extends StatefulWidget {
   @override
@@ -16,7 +17,31 @@ class NoteList extends StatefulWidget {
 }
 
 class _NoteListState extends State<NoteList> {
-  bool isLoading = false;
+  List todoList = notes.length == 0 ? [] : notes;
+  TextEditingController titleController = TextEditingController();
+  TextEditingController descController = TextEditingController();
+
+  // draggable scrollable controller
+  DraggableScrollableController _scrollController =
+      DraggableScrollableController();
+
+  // save note
+  void saveNote() {
+    setState(() {
+      todoList.add(
+        NoteData(
+          text: titleController.text,
+          desc: descController.text,
+          color: todoList.length == 0
+              ? Color(0xffFD99FF)
+              : todoList[todoList.length - 1].color,
+        ),
+      );
+      titleController.clear();
+      descController.clear();
+    });
+    Navigator.pop(context);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,13 +62,13 @@ class _NoteListState extends State<NoteList> {
             Expanded(
               child: ListView.builder(
                 padding: EdgeInsets.only(bottom: 10),
-                itemCount: notes.length,
+                itemCount: todoList.length,
                 itemBuilder: (context, index) => Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: noteList(
-                    color: notes[index].color,
-                    noteText: notes[index].text,
-                    noteDesc: notes[index].desc,
+                    color: todoList[index].color,
+                    noteText: todoList[index].text,
+                    noteDesc: todoList[index].desc,
                     onClick: () {
                       Navigator.push(
                         context,
@@ -66,8 +91,17 @@ class _NoteListState extends State<NoteList> {
       floatingActionButton: addedTask(
         taskButtonToolTip: 'Go to add note',
         onPressed: () {
-          navigateDetails(
-            title: 'Add Note',
+          showModalBottomSheet(
+            isScrollControlled: true,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(15),
+                topRight: Radius.circular(15),
+              ),
+            ),
+            backgroundColor: kBackgroundColor.withOpacity(0.9),
+            context: context,
+            builder: (context) => AddNote(),
           );
         },
       ),
@@ -86,5 +120,71 @@ class _NoteListState extends State<NoteList> {
     );
   }
 
-// update note end
+  Widget AddNote() => DraggableScrollableSheet(
+        controller: _scrollController,
+        builder: (context, scrollController) => Padding(
+          padding: const EdgeInsets.only(bottom: 15.0),
+          child: ListView(
+            controller: scrollController,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(top: 30.0),
+                child: Text(
+                  'Add Your Task From Here!',
+                  textAlign: TextAlign.center,
+                  style: kTextStyle.copyWith(
+                    fontSize: 18,
+                    color: Colors.white.withOpacity(0.3),
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              // title field
+              addTaskField(
+                  maxLength: 20,
+                  controller: titleController,
+                  hintText: 'Title',
+                  onChanged: (value) {},
+                  fontSize: 28,
+                  cursorHeight: 45),
+              SizedBox(
+                height: 20,
+              ),
+              // description field
+              addTaskField(
+                  maxLength: 40,
+                  controller: descController,
+                  hintText: 'Description...',
+                  onChanged: (value) {},
+                  fontSize: 17,
+                  cursorHeight: 55),
+              SizedBox(height: 50),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  // save button
+                  taskButton(
+                    color: Color(0xff30BE71),
+                    buttonText: 'Save',
+                    onClick: () {
+                      saveNote();
+                    },
+                  ),
+                  SizedBox(
+                    width: 20,
+                  ),
+                  // delete button
+                  taskButton(
+                    color: Color(0xffFF0000),
+                    buttonText: 'Delete',
+                    onClick: () {},
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      );
 }
