@@ -14,7 +14,7 @@ Widget addTaskField(
         left: 20,
       ),
       child: Container(
-        child: TextFormField(
+        child: TextField(
           maxLength: maxLength,
           controller: controller,
           onChanged:onChanged ,

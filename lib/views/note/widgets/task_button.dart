@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-Widget taskButton(
-        {required Color color,
-        required String buttonText,
-        required VoidCallback onClick}) =>
+Widget taskButton({
+  required Color color,
+  required String buttonText,
+  required Function()? onClick,
+}) =>
     Expanded(
       child: Padding(
         padding: const EdgeInsets.only(left: 20.0, right: 20),

@@ -10,24 +10,16 @@ import 'package:note_keeper_app/views/note/widgets/note_list_card.dart';
 
 import 'package:note_keeper_app/views/note/widgets/title_bar.dart';
 
-import 'package:sqflite/sqflite.dart';
-
 class NoteList extends StatefulWidget {
   @override
   State<NoteList> createState() => _NoteListState();
 }
 
 class _NoteListState extends State<NoteList> {
-  DatabaseHelper databaseHelper = DatabaseHelper();
-  List<NoteModel>? mynote;
-  int count = 0;
+  bool isLoading = false;
 
   @override
   Widget build(BuildContext context) {
-    if (mynote == null) {
-      mynote = <NoteModel>[];
-      updateNoteListView();
-    }
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.black12,
@@ -51,18 +43,19 @@ class _NoteListState extends State<NoteList> {
               Expanded(
                 child: ListView.builder(
                   padding: EdgeInsets.only(bottom: 10),
-                  itemCount: count,
+                  itemCount: notes.length,
                   itemBuilder: (context, index) => Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: noteList(
                       color: notes[index].color,
-                      noteText: this.mynote![index].title,
+                      noteText: notes[index].text,
                       onClick: () {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) =>
-                                NoteDetail('Edit Note', this.mynote![index]),
+                            builder: (context) => NoteDetail(
+                              'Edit Note',
+                            ),
                           ),
                         );
                       },
@@ -80,11 +73,6 @@ class _NoteListState extends State<NoteList> {
           onPressed: () {
             navigateDetails(
               title: 'Add Note',
-              noteModel: NoteModel(
-                0,
-                '',
-                '',
-              ),
             );
           },
         ),
@@ -95,31 +83,14 @@ class _NoteListState extends State<NoteList> {
   // navigate to note detail page
   void navigateDetails({
     required String title,
-    required NoteModel noteModel,
-  }) async {
-    bool result = await Navigator.push(
+  }) {
+    Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => NoteDetail(title, noteModel),
+        builder: (context) => NoteDetail(title),
       ),
     );
-    if (result == true) {
-      updateNoteListView();
-    }
   }
 
-// update note
-  void updateNoteListView() {
-    final Future<Database> dbFuture = databaseHelper.initializeDB();
-    dbFuture.then((database) {
-      Future<List<NoteModel>> noteListFuture = databaseHelper.getNoteList();
-      noteListFuture.then((noteList) {
-        setState(() {
-          this.mynote = noteList;
-          this.count = noteList.length;
-        });
-      });
-    });
-  }
 // update note end
 }
