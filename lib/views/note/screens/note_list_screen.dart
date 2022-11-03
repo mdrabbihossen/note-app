@@ -43,6 +43,7 @@ class _NoteListState extends State<NoteList> {
                   child: noteList(
                     color: notes[index].color,
                     noteText: notes[index].text,
+                    noteDesc: notes[index].desc,
                     onClick: () {
                       Navigator.push(
                         context,

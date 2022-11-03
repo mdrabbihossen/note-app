@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:note_keeper_app/constants/constants.dart';
+import 'package:note_keeper_app/models/data/noteData.dart';
 
 import 'package:note_keeper_app/views/note/widgets/floating_action_btn.dart';
 import 'package:note_keeper_app/views/note/widgets/task_button.dart';
@@ -22,8 +23,26 @@ class _NoteDetailState extends State<NoteDetail> {
   TextEditingController titleController = TextEditingController();
   TextEditingController descController = TextEditingController();
 
+  // draggable scrollable controller
+  DraggableScrollableController _scrollController =
+      DraggableScrollableController();
+
   _NoteDetailState(this.appBarTitle);
 
+   // save new task
+  void saveTask(){
+    setState(() {
+      // add new task to the list
+      notes.add(NoteData(
+      text : titleController.text,
+        desc: descController.text,
+        color: Colors.white,
+      ));
+      // clear the text field
+      titleController.clear();
+      descController.clear();
+    });
+  }
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -140,6 +159,7 @@ class _NoteDetailState extends State<NoteDetail> {
 
   // bottom sheet where add or edit note
   Widget AddNote() => DraggableScrollableSheet(
+        controller: _scrollController,
         builder: (context, scrollController) => Padding(
           padding: const EdgeInsets.only(bottom: 15.0),
           child: ListView(
