@@ -36,10 +36,11 @@ dependencies:
 
   google_fonts: ^2.3.2
   path_provider: ^2.0.11
-  sqflite: any
+
 
 
 dev_dependencies:
+
   flutter_test:
     sdk: flutter
 

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:note_keeper_app/data/noteData.dart';
-import 'package:note_keeper_app/models/note_model.dart';
-import 'package:note_keeper_app/utilis/database_helper.dart';
+import 'package:note_keeper_app/models/data/noteData.dart';
+
+
 
 import 'package:note_keeper_app/views/note/screens/note_detail_screen.dart';
 import 'package:note_keeper_app/views/note/widgets/floating_action_btn.dart';
@@ -22,7 +22,7 @@ class _NoteListState extends State<NoteList> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        backgroundColor: Colors.black12,
+
         body: Padding(
           padding: const EdgeInsets.only(bottom: 40.0),
           child: Column(

@@ -32,7 +32,7 @@ class _NoteDetailState extends State<NoteDetail> {
 
     return SafeArea(
       child: Scaffold(
-        backgroundColor: backgroundColor,
+
         body: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -130,7 +130,7 @@ class _NoteDetailState extends State<NoteDetail> {
                   topRight: Radius.circular(15),
                 ),
               ),
-              backgroundColor: backgroundColor.withOpacity(0.9),
+              backgroundColor: kBackgroundColor.withOpacity(0.9),
               context: context,
               builder: (context) => AddNote(),
             );

@@ -1,3 +1,3 @@
 import 'package:flutter/material.dart';
 
-Color backgroundColor = Colors.black12;
+Color kBackgroundColor = Colors.black12;

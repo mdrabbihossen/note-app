@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:note_keeper_app/constants/constants.dart';
 import 'package:note_keeper_app/views/note/screens/note_list_screen.dart';
 
 void main() {
@@ -13,6 +14,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        scaffoldBackgroundColor: kBackgroundColor,
+      ),
       home: NoteList(),
     );
   }
