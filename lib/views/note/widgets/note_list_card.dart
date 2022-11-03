@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+
+import 'package:note_keeper_app/constants/constants.dart';
 
 Widget noteList({
   required Color color,
@@ -14,20 +15,18 @@ Widget noteList({
             padding: const EdgeInsets.only(left: 20, right: 20),
             child: Container(
               padding: EdgeInsets.only(bottom: 20),
-              width: 365,
               decoration: BoxDecoration(
                 color: color,
                 borderRadius: BorderRadius.circular(10),
               ),
               child: Padding(
-                padding: const EdgeInsets.only(left: 46, top: 22, right: 15),
+                padding: const EdgeInsets.only(left: 45, top: 22, right: 15),
                 child: Text(
                   noteText,
-                  style: GoogleFonts.montserrat(
+                  style: kTextStyle.copyWith(
                     fontSize: 20,
-                    letterSpacing: 1,
-                    color: Colors.black,
-                    fontWeight: FontWeight.w400,
+                    color: Color(0xff263238),
+                    letterSpacing: 1.2,
                   ),
                 ),
               ),

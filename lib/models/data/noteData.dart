@@ -16,7 +16,7 @@ List<NoteData> notes = [
     color: Color(0xffFD99FF),
   ),
   NoteData(
-    text: 'Book Review : The Design of Everyday Things by Don Norman',
+    text: 'Book Review : The Design of Everyday',
     color: Color(0xffFF9E9E),
   ),
   NoteData(

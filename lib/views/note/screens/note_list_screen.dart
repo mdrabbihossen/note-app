@@ -21,15 +21,11 @@ class _NoteListState extends State<NoteList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      extendBodyBehindAppBar: true,
-
       body: SafeArea(
         child: Column(
           children: [
             titleBar(),
-            SizedBox(
-              height: 10,
-            ),
+            SizedBox(height: 10),
             Text(
               'Double click to edit',
               style: GoogleFonts.rajdhani(

@@ -7,9 +7,7 @@ import 'package:note_keeper_app/views/note/widgets/task_button.dart';
 
 import 'package:note_keeper_app/widgets/add_task_field.dart';
 
-
 class NoteDetail extends StatefulWidget {
-
   final String appBarTitle;
 
   NoteDetail(this.appBarTitle);
@@ -32,7 +30,6 @@ class _NoteDetailState extends State<NoteDetail> {
 
     return SafeArea(
       child: Scaffold(
-
         body: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -68,9 +65,8 @@ class _NoteDetailState extends State<NoteDetail> {
                     padding: const EdgeInsets.only(top: 12.0),
                     child: Text(
                       appBarTitle.toString(),
-                      style: GoogleFonts.montserrat(
+                      style: kTextStyle.copyWith(
                         fontSize: 25,
-                        color: Colors.white,
                         fontWeight: FontWeight.w400,
                         letterSpacing: 1,
                       ),
@@ -89,7 +85,7 @@ class _NoteDetailState extends State<NoteDetail> {
               Center(
                 child: Text(
                   '$appBarTitle here!',
-                  style: GoogleFonts.raleway(
+                  style: kTextStyle.copyWith(
                     fontSize: 18,
                     color: Colors.white.withOpacity(0.3),
                   ),
@@ -154,9 +150,9 @@ class _NoteDetailState extends State<NoteDetail> {
                 child: Text(
                   'Add Your Task From Here!',
                   textAlign: TextAlign.center,
-                  style: GoogleFonts.montserrat(
+                  style: kTextStyle.copyWith(
                     fontSize: 18,
-                    color: Colors.white.withOpacity(0.5),
+                    color: Colors.white.withOpacity(0.3),
                   ),
                 ),
               ),
