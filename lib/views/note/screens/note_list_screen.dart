@@ -29,6 +29,19 @@ class _NoteListState extends State<NoteList> {
   DraggableScrollableController _scrollController =
       DraggableScrollableController();
 
+  @override
+  void initState() {
+    // if this is the first time opening the app then create the default data
+    if (noteBox.get('TODOLIST') == null) {
+      db.createInitData();
+    } else {
+      // already exist data
+      db.loadData();
+    }
+    //  implement initState
+    super.initState();
+  }
+
   // save note
   void saveNote() {
     setState(() {
@@ -45,6 +58,7 @@ class _NoteListState extends State<NoteList> {
       descController.clear();
     });
     Navigator.pop(context);
+    db.updateData();
   }
 
   @override
@@ -77,6 +91,7 @@ class _NoteListState extends State<NoteList> {
                       setState(() {
                         db.todoList.removeAt(index);
                       });
+                      db.updateData();
                     },
                     onClick: () {
                       Navigator.push(

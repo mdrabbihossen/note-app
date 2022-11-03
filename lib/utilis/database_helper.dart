@@ -10,7 +10,7 @@ class TODODatabase {
   // create init data
 
   void createInitData() {
-    todoList = notes.length == 0 ? [] : todoList;
+    todoList = notes.length == 0 ? [] : notes;
   }
 
   // load the data from database
